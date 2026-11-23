@@ -22,11 +22,11 @@ export const weddingData = {
   address: "Pattlur Nall Road",
   city: "Anthiyur Bhavani, Tamil Nadu",
   
-  // Official Google Maps Direct Navigation (Guaranteed to work on all laptops, desktops, and mobile devices)
+  // Official Google Maps Direct Navigation (Works 100% on laptop/desktop and mobile)
   googleMapsUrl: "https://www.google.com/maps/dir/?api=1&destination=PSK+MAHAL+A%2FC+Patlur+Nalroad+Anthiyur+Bhavani",
   mapEmbedUrl: "https://maps.google.com/maps?q=PSK+MAHAL,+Anthiyur+Bhavani&t=&z=14&ie=UTF8&iwloc=&output=embed",
   
-  // Traditional Tamil Wedding Instrumental Music
+  // Traditional Tamil Wedding Song (User Uploaded)
   musicUrl: "/audio/tamil-wedding-music.mp3",
   
   // Invitation Quotes
@@ -57,7 +57,7 @@ export const weddingData = {
     }
   ],
 
-  // Photo Gallery - Only Bride & Groom Picture and Hand in Hand Picture
+  // Photo Gallery - Authentic Bride & Groom Photographs (All 4 Images)
   gallery: [
     {
       id: 1,
@@ -68,6 +68,20 @@ export const weddingData = {
     },
     {
       id: 2,
+      url: "/images/groom-ashwanth.jpg",
+      caption: "The Groom — V.N. Ashwanth",
+      alt: "V.N. Ashwanth Groom Portrait",
+      title: "V.N. Ashwanth (Groom)"
+    },
+    {
+      id: 3,
+      url: "/images/bride-boomika.jpg",
+      caption: "The Bride — N. Boomika",
+      alt: "N. Boomika Bride Portrait",
+      title: "N. Boomika (Bride)"
+    },
+    {
+      id: 4,
       url: "/images/holding-hands.jpg",
       caption: "Hand in hand, stepping into our forever",
       alt: "Ashwanth & Boomika holding hands",

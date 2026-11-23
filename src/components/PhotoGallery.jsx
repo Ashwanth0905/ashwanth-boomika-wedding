@@ -5,7 +5,11 @@ import { RoyalMandalaDivider, AntiqueCorner } from './IndianMotifs';
 
 /**
  * PhotoGallery Component ("Cherished Moments")
- * Displays exclusively the Bride & Groom photograph and the Hand in Hand photograph.
+ * Displays all 4 photographs:
+ * 1. Couple Heart photo (Ashwanth & Boomika)
+ * 2. Groom portrait (V.N. Ashwanth)
+ * 3. Bride portrait (N. Boomika)
+ * 4. Hand in Hand photo
  * Includes full-screen Lightbox viewing.
  */
 export const PhotoGallery = () => {
@@ -51,16 +55,16 @@ export const PhotoGallery = () => {
         </h3>
 
         <p className="text-xs text-stone-600 font-sans mb-4">
-          Two souls, one beautiful journey ahead
+          Celebrating our journey of love &amp; togetherness
         </p>
 
         <RoyalMandalaDivider className="mb-6" />
 
-        {/* 1. BRIDE & GROOM COUPLE PICTURE */}
+        {/* 1. FEATURED: BRIDE & GROOM COUPLE PICTURE */}
         {photos[0] && (
           <div 
             onClick={() => setSelectedIndex(0)}
-            className="group relative w-full aspect-[4/5] sm:aspect-[16/11] rounded-2xl overflow-hidden cursor-pointer border-2 border-amber-500/50 shadow-md mb-5 bg-stone-900"
+            className="group relative w-full aspect-[4/5] sm:aspect-[16/11] rounded-2xl overflow-hidden cursor-pointer border-2 border-amber-500/50 shadow-md mb-4 bg-stone-900"
           >
             <img
               src={photos[0].url}
@@ -83,15 +87,62 @@ export const PhotoGallery = () => {
           </div>
         )}
 
-        {/* 2. HAND IN HAND PICTURE */}
-        {photos[1] && (
+        {/* 2 & 3. DUO: GROOM & BRIDE INDIVIDUAL PORTRAITS */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
+          {/* Groom Portrait */}
+          {photos[1] && (
+            <div
+              onClick={() => setSelectedIndex(1)}
+              className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer border-2 border-amber-500/40 bg-stone-900 shadow-sm hover:shadow-md hover:border-amber-500 transition-all duration-300"
+            >
+              <img
+                src={photos[1].url}
+                alt={photos[1].alt}
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-transparent to-transparent flex flex-col justify-end p-3 text-left">
+                <span className="text-[10px] font-sans tracking-[0.2em] text-amber-300 font-semibold uppercase">
+                  Groom
+                </span>
+                <p className="text-white font-serif font-bold text-sm">
+                  V.N. Ashwanth
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Bride Portrait */}
+          {photos[2] && (
+            <div
+              onClick={() => setSelectedIndex(2)}
+              className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer border-2 border-amber-500/40 bg-stone-900 shadow-sm hover:shadow-md hover:border-amber-500 transition-all duration-300"
+            >
+              <img
+                src={photos[2].url}
+                alt={photos[2].alt}
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-transparent to-transparent flex flex-col justify-end p-3 text-left">
+                <span className="text-[10px] font-sans tracking-[0.2em] text-amber-300 font-semibold uppercase">
+                  Bride
+                </span>
+                <p className="text-white font-serif font-bold text-sm">
+                  N. Boomika
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 4. HAND IN HAND PICTURE */}
+        {photos[3] && (
           <div
-            onClick={() => setSelectedIndex(1)}
+            onClick={() => setSelectedIndex(3)}
             className="group relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden cursor-pointer border-2 border-amber-500/40 bg-stone-900 shadow-md hover:shadow-lg hover:border-amber-500 transition-all duration-300"
           >
             <img
-              src={photos[1].url}
-              alt={photos[1].alt}
+              src={photos[3].url}
+              alt={photos[3].alt}
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/85 via-transparent to-transparent flex items-end justify-between p-4 text-left">
@@ -100,7 +151,7 @@ export const PhotoGallery = () => {
                   Hand in Hand
                 </p>
                 <p className="text-amber-200 text-xs font-sans">
-                  {photos[1].caption}
+                  {photos[3].caption}
                 </p>
               </div>
               <ZoomIn className="w-4 h-4 text-amber-300 self-end" />
