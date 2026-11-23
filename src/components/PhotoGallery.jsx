@@ -198,13 +198,13 @@ export const PhotoGallery = () => {
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black/95 p-4 backdrop-blur-md animate-fadeIn select-none"
           onClick={() => setSelectedIndex(null)}
         >
-          {/* PROMINENT HIGH-VISIBILITY CLOSE BUTTON (Top-Right) */}
+          {/* PROMINENT HIGH-VISIBILITY CLOSE BUTTON (Top-Left to avoid music button overlap) */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               setSelectedIndex(null);
             }}
-            className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[100000] flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-950 text-amber-300 border-2 border-amber-400 shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:bg-emerald-900 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="fixed top-4 left-4 sm:top-6 sm:left-6 z-[100000] flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-950 text-amber-300 border-2 border-amber-400 shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:bg-emerald-900 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             aria-label="Close photo"
           >
             <X className="w-5 h-5 text-amber-300 stroke-[2.5]" />
