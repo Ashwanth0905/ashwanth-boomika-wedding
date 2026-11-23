@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Sparkles } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { weddingData } from '../config/invitation';
 import { RoyalMandalaDivider } from './IndianMotifs';
 
@@ -7,17 +7,18 @@ import { RoyalMandalaDivider } from './IndianMotifs';
  * TimelineSection Component
  * Exclusively the Wedding Reception evening flow.
  * Note: Muhurtham / morning wedding rituals are strictly excluded per user instructions.
+ * "Welcome drinks" removed from 5:30 PM.
  */
 export const TimelineSection = () => {
   return (
-    <section className="py-12 px-4 relative z-10 text-center">
+    <section className="py-12 px-4 relative z-10 text-center animate-fadeIn">
       <div className="max-w-md mx-auto bg-gradient-to-b from-[#fffdf9] to-[#faf5e8] p-6 md:p-8 rounded-3xl border-2 border-amber-500/40 shadow-[0_12px_40px_rgba(11,35,21,0.08)]">
         
         <p className="font-serif text-xs md:text-sm tracking-[0.25em] uppercase text-emerald-900 font-semibold mb-1">
           Evening Celebration
         </p>
         
-        <h3 className="font-script text-3xl md:text-4xl text-amber-700 my-1">
+        <h3 className="font-serif text-2xl md:text-3xl font-bold text-amber-800 my-1 tracking-wide">
           Reception Schedule
         </h3>
 
@@ -29,7 +30,7 @@ export const TimelineSection = () => {
 
         {/* Reception Timeline Nodes */}
         <div className="relative pl-6 pr-2 text-left space-y-6">
-          {/* Vertical Golden Connecting Vine */}
+          {/* Vertical Golden Connecting Line */}
           <div className="absolute left-[15px] top-3 bottom-3 w-0.5 bg-gradient-to-b from-amber-500 via-emerald-800 to-amber-600" />
 
           {weddingData.timeline.map((item, index) => (

@@ -117,12 +117,12 @@ export const WelcomeCover = ({ onOpen }) => {
           </div>
         </button>
 
-        {/* Couple Names Preview */}
+        {/* Couple Names Preview with Prominent Capital A */}
         <div className="mt-8">
-          <h2 className="font-serif text-lg md:text-xl text-stone-200 tracking-wide">
+          <h2 className="font-serif text-xl md:text-2xl font-bold text-amber-200 tracking-wider">
             V.N. Ashwanth &amp; N. Boomika
           </h2>
-          <p className="text-xs font-sans tracking-[0.2em] text-amber-400/80 uppercase mt-1">
+          <p className="text-xs font-sans tracking-[0.2em] text-amber-400/90 uppercase mt-1">
             Saturday, 12 December 2026
           </p>
         </div>

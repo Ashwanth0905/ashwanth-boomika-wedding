@@ -1,28 +1,39 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import confetti from 'canvas-confetti';
-import { Sparkles, Eye } from 'lucide-react';
-import { LordGaneshaIcon, KuthuVilakku, AntiqueCorner, RoyalMandalaDivider } from './IndianMotifs';
+import { Sparkles, Calendar, Clock, MapPin } from 'lucide-react';
+import { LordGaneshaIcon, KuthuVilakku, AntiqueCorner, ToranGarland, RoyalMandalaDivider } from './IndianMotifs';
 import { weddingData } from '../config/invitation';
 
 /**
  * ScratchCard Component
  * High-performance HTML5 Canvas scratch-to-reveal card.
- * Works seamlessly on Android, iOS, and Desktop.
- * Features an alternative "Reveal Invitation" button.
+ * Instantly reveals on the very first scratch swipe/touch!
+ * Also includes an alternative "Reveal Invitation Directly" button.
  */
 export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-  const [percentScratched, setPercentScratched] = useState(0);
   const isDrawingRef = useRef(false);
   const hasRevealedRef = useRef(false);
+  const scratchCountRef = useRef(0);
 
   // Trigger celebration and reveal
   const triggerReveal = useCallback(() => {
     if (hasRevealedRef.current) return;
     hasRevealedRef.current = true;
     
-    // Confetti celebration
+    // Smoothly fade out canvas
+    if (canvasRef.current) {
+      canvasRef.current.style.transition = 'opacity 0.65s ease-out';
+      canvasRef.current.style.opacity = '0';
+      setTimeout(() => {
+        if (canvasRef.current) {
+          canvasRef.current.style.display = 'none';
+        }
+      }, 700);
+    }
+
+    // Celebratory Confetti Burst
     try {
       confetti({
         particleCount: 100,
@@ -90,64 +101,28 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
     // Decorative center emblem / text
     ctx.textAlign = 'center';
     
-    // Top auspicious symbol
+    // Top prompt
     ctx.fillStyle = '#e6c86e';
-    ctx.font = '600 13px Cinzel, Georgia, serif';
+    ctx.font = '600 12px Cinzel, Georgia, serif';
     ctx.letterSpacing = '3px';
     ctx.fillText('A SPECIAL INVITATION AWAITS YOU', w / 2, h / 2 - 45);
 
     // Main scratch prompt text
     ctx.fillStyle = '#ffffff';
-    ctx.font = '700 19px Cinzel, Georgia, serif';
+    ctx.font = '700 18px Cinzel, Georgia, serif';
     ctx.fillText('SCRATCH HERE TO REVEAL', w / 2, h / 2 - 12);
 
     ctx.fillStyle = '#ffd166';
-    ctx.font = 'italic 34px "Great Vibes", cursive';
-    ctx.fillText('Our Wedding Reception', w / 2, h / 2 + 32);
+    ctx.font = 'italic 32px "Great Vibes", cursive';
+    ctx.fillText('Our Wedding Reception', w / 2, h / 2 + 30);
 
-    // Subtle finger / mouse hint
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    // Touch hint
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.font = '500 11px Montserrat, sans-serif';
-    ctx.fillText('✨ Use finger or mouse to scratch ✨', w / 2, h / 2 + 65);
+    ctx.fillText('✨ Swipe once with finger or mouse ✨', w / 2, h / 2 + 65);
   }, []);
 
-  // Calculate scratched area percentage
-  const checkScratchPercentage = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || hasRevealedRef.current) return;
-
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const w = canvas.width;
-    const h = canvas.height;
-
-    // Sample every 40th pixel for smooth 60fps performance
-    try {
-      const imgData = ctx.getImageData(0, 0, w, h);
-      const pixels = imgData.data;
-      let clearPixels = 0;
-      let totalSampled = 0;
-
-      for (let i = 3; i < pixels.length; i += 40 * 4) {
-        totalSampled++;
-        if (pixels[i] === 0) {
-          clearPixels++;
-        }
-      }
-
-      const percent = (clearPixels / totalSampled) * 100;
-      setPercentScratched(Math.round(percent));
-
-      // If more than 35% is cleared, automatically reveal completely!
-      if (percent > 35) {
-        triggerReveal();
-      }
-    } catch (e) {
-      // In case of any context error
-    }
-  }, [triggerReveal]);
-
-  // Scratch action
+  // Scratch action - Reveals immediately on the very first swipe!
   const scratch = useCallback((clientX, clientY) => {
     const canvas = canvasRef.current;
     if (!canvas || hasRevealedRef.current) return;
@@ -161,11 +136,18 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 32 * dpr, 0, Math.PI * 2);
+    ctx.arc(x, y, 38 * dpr, 0, Math.PI * 2);
     ctx.fill();
 
+    scratchCountRef.current += 1;
+
+    // REVEAL ON FIRST SCRATCH SWIPE!
+    if (scratchCountRef.current >= 2) {
+      triggerReveal();
+    }
+
     if (onUserInteract) onUserInteract();
-  }, [onUserInteract]);
+  }, [onUserInteract, triggerReveal]);
 
   useEffect(() => {
     initCanvas();
@@ -180,7 +162,7 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [initCanvas]);
 
-  // Pointer / Touch / Mouse handlers
+  // Pointer / Mouse handlers
   const handlePointerDown = (e) => {
     isDrawingRef.current = true;
     scratch(e.clientX, e.clientY);
@@ -189,12 +171,13 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
   const handlePointerMove = (e) => {
     if (!isDrawingRef.current) return;
     scratch(e.clientX, e.clientY);
-    checkScratchPercentage();
   };
 
   const handlePointerUp = () => {
+    if (isDrawingRef.current && scratchCountRef.current >= 1) {
+      triggerReveal();
+    }
     isDrawingRef.current = false;
-    checkScratchPercentage();
   };
 
   // Touch handlers with passive: false to prevent scrolling while scratching
@@ -211,16 +194,17 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
 
     const onTouchMove = (e) => {
       if (!isDrawingRef.current) return;
-      e.preventDefault(); // Stop page from scrolling while scratching!
+      e.preventDefault(); // Stop page scrolling
       if (e.touches && e.touches[0]) {
         scratch(e.touches[0].clientX, e.touches[0].clientY);
-        checkScratchPercentage();
       }
     };
 
     const onTouchEnd = () => {
+      if (isDrawingRef.current && scratchCountRef.current >= 1) {
+        triggerReveal();
+      }
       isDrawingRef.current = false;
-      checkScratchPercentage();
     };
 
     canvas.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -232,18 +216,23 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
       canvas.removeEventListener('touchmove', onTouchMove);
       canvas.removeEventListener('touchend', onTouchEnd);
     };
-  }, [scratch, checkScratchPercentage]);
+  }, [scratch, triggerReveal]);
 
   return (
-    <div className="w-full max-w-lg mx-auto my-6 px-4">
+    <div className="w-full max-w-lg mx-auto my-4 px-4">
       {/* Interactive Card Frame */}
       <div 
         ref={containerRef}
-        className="relative w-full aspect-[4/5] min-h-[460px] md:min-h-[520px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(11,35,21,0.25)] border-2 border-amber-500/50 bg-[#fffdf9]"
+        className="relative w-full aspect-[4/5] min-h-[480px] md:min-h-[530px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(11,35,21,0.25)] border-2 border-amber-500/50 bg-[#fffdf9]"
       >
         {/* UNDERNEATH: The Wedding Reception Invitation Card */}
         <div className="absolute inset-0 p-6 md:p-8 flex flex-col items-center justify-between text-center select-none bg-gradient-to-b from-[#fdfbf6] via-[#faf5e8] to-[#f5eedb] overflow-hidden">
           
+          {/* Hanging Floral Toran Garland at top */}
+          <div className="absolute top-0 left-0 right-0 pointer-events-none opacity-90">
+            <ToranGarland className="w-full h-8" />
+          </div>
+
           {/* Traditional Antique Gold Filigree Corners */}
           <div className="absolute top-2 left-2 text-amber-600/70 pointer-events-none">
             <AntiqueCorner position="top-left" className="w-12 h-12" />
@@ -267,32 +256,32 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
           </div>
 
           {/* Card Top: Lord Ganesha & Invocation */}
-          <div className="pt-2 z-10 flex flex-col items-center">
+          <div className="pt-4 z-10 flex flex-col items-center">
             <LordGaneshaIcon className="w-12 h-12 text-amber-600 mb-1 drop-shadow-sm" />
             <p className="text-[10px] md:text-xs font-serif tracking-[0.25em] text-emerald-900 uppercase font-semibold">
               || Shri Ganeshaya Namaha ||
             </p>
-            <div className="w-16 h-px bg-amber-500/60 my-2" />
+            <div className="w-16 h-px bg-amber-500/60 my-1.5" />
             <p className="text-xs md:text-sm font-serif tracking-widest uppercase text-emerald-900/90 font-medium">
               We Cordially Invite You To The
             </p>
           </div>
 
           {/* Event Heading */}
-          <div className="my-2 z-10">
+          <div className="my-1.5 z-10">
             <div className="inline-block px-4 py-1 rounded-full border border-amber-600/40 bg-amber-500/10 mb-2">
               <span className="font-serif text-xs md:text-sm tracking-[0.25em] font-bold text-emerald-950 uppercase">
                 {weddingData.event}
               </span>
             </div>
 
-            {/* Couple's Names in Royal Dark Green Typography */}
+            {/* Couple's Names: V.N. Ashwanth & N. Boomika (Clear Capital A) */}
             <h1 className="font-serif text-2xl md:text-3xl font-bold text-[#0c3821] tracking-wide leading-tight">
               {weddingData.groom}
             </h1>
             <div className="flex items-center justify-center gap-3 my-1">
               <span className="w-10 h-px bg-amber-500/50" />
-              <span className="font-script text-3xl md:text-4xl text-amber-600 font-normal">&amp;</span>
+              <span className="font-serif text-xl md:text-2xl text-amber-600 font-semibold">&amp;</span>
               <span className="w-10 h-px bg-amber-500/50" />
             </div>
             <h1 className="font-serif text-2xl md:text-3xl font-bold text-[#0c3821] tracking-wide leading-tight">
@@ -301,7 +290,7 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
           </div>
 
           {/* Date, Timing, & Venue */}
-          <div className="z-10 bg-white/60 backdrop-blur-xs py-2.5 px-4 rounded-xl border border-amber-400/40 shadow-xs max-w-xs mx-auto">
+          <div className="z-10 bg-white/70 backdrop-blur-xs py-2.5 px-4 rounded-xl border border-amber-400/40 shadow-xs max-w-xs mx-auto">
             <p className="font-serif text-sm md:text-base font-semibold text-emerald-950">
               {weddingData.dateText}
             </p>
@@ -341,19 +330,19 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
         />
       </div>
 
-      {/* Alternative "Reveal Invitation" Button & Scratch Progress */}
-      <div className="flex flex-col items-center justify-center mt-4 gap-2">
+      {/* Alternative "Reveal Invitation Directly" Button */}
+      <div className="flex flex-col items-center justify-center mt-3 gap-2">
         {!isRevealed ? (
           <>
             <button
               onClick={triggerReveal}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-amber-200 border border-amber-400/60 font-serif text-xs md:text-sm tracking-wider uppercase shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 group"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-amber-200 border border-amber-400/60 font-serif text-xs md:text-sm tracking-wider uppercase shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-amber-300 group-hover:rotate-12 transition-transform" />
               <span>Reveal Invitation Directly</span>
             </button>
             <p className="text-[11px] font-sans text-stone-500 tracking-wide">
-              {percentScratched > 0 ? `Scratched ${percentScratched}%` : 'Or scratch above with your finger / mouse'}
+              Swipe once above with your finger or mouse to reveal
             </p>
           </>
         ) : (

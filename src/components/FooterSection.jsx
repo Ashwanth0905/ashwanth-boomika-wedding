@@ -30,8 +30,8 @@ export const FooterSection = () => {
 
       <div className="max-w-md mx-auto relative z-10">
         
-        {/* Couple Initials Sign-off */}
-        <p className="font-script text-4xl sm:text-5xl text-amber-300 mb-1">
+        {/* Couple Sign-off with Prominent Capital A */}
+        <p className="font-serif text-3xl sm:text-4xl font-bold text-amber-300 mb-1 tracking-wider">
           Ashwanth &amp; Boomika
         </p>
 

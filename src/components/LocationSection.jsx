@@ -6,12 +6,17 @@ import { RoyalMandalaDivider, AntiqueCorner } from './IndianMotifs';
 /**
  * LocationSection Component
  * Dedicated Reception Venue & Direction details.
- * NOTE: As requested by the user, NO QR CODE is displayed anywhere!
- * Prominent "SHOW DIRECTIONS" button linking to https://maps.app.goo.gl/xRLy7N8UZZJyos1u6.
+ * NOTE: Strictly NO QR CODE displayed.
+ * "SHOW DIRECTIONS" button linking to: https://maps.app.goo.gl/ynhQ85xUwPMgvwg9A
  */
 export const LocationSection = () => {
+  const handleOpenMap = (e) => {
+    // Fallback ensure mobile / webview navigation opens smoothly
+    window.open(weddingData.googleMapsUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <section className="py-12 px-4 relative z-10 text-center">
+    <section className="py-12 px-4 relative z-10 text-center animate-fadeIn">
       <div className="max-w-md mx-auto bg-gradient-to-b from-[#fffdf9] via-[#faf5e8] to-[#f6eedb] p-6 md:p-8 rounded-3xl border-2 border-amber-500/40 shadow-[0_15px_45px_rgba(11,35,21,0.08)] relative overflow-hidden">
         
         {/* Antique Gold Corners */}
@@ -46,7 +51,7 @@ export const LocationSection = () => {
 
         <RoyalMandalaDivider className="my-5" />
 
-        {/* Stylized Venue Visual Card */}
+        {/* Stylized Venue Card */}
         <div className="relative rounded-2xl overflow-hidden border border-amber-500/30 mb-6 bg-emerald-950 text-white p-5 shadow-inner">
           <div 
             className="absolute inset-0 opacity-10"
@@ -64,6 +69,7 @@ export const LocationSection = () => {
               Pattlur Nall Road
             </p>
             <div className="w-20 h-px bg-amber-400/40 my-3" />
+            {/* Clear Capital A for Ashwanth */}
             <p className="text-[11px] text-amber-200/90 italic font-serif">
               Join us to bless the couple V.N. Ashwanth &amp; N. Boomika
             </p>
@@ -76,14 +82,15 @@ export const LocationSection = () => {
             href={weddingData.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-[#0c3821] via-[#155432] to-[#0a2817] text-amber-200 hover:text-white border-2 border-amber-400/70 font-serif font-bold text-sm tracking-[0.2em] uppercase shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group"
+            onClick={handleOpenMap}
+            className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-[#0c3821] via-[#155432] to-[#0a2817] text-amber-200 hover:text-white border-2 border-amber-400/70 font-serif font-bold text-sm tracking-[0.2em] uppercase shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group cursor-pointer"
           >
             <Navigation className="w-4 h-4 text-amber-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             <span>SHOW DIRECTIONS</span>
           </a>
 
           <p className="text-[11px] font-sans text-stone-500 mt-2.5">
-            Opens Google Maps directly for turn-by-turn navigation
+            Opens Google Maps directly for live navigation
           </p>
         </div>
 
