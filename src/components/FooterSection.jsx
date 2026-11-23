@@ -11,12 +11,12 @@ export const FooterSection = () => {
   const [copied, setCopied] = useState(false);
 
   // WhatsApp share link
-  const shareText = `With great joy, you are cordially invited to the Wedding Reception of V.N. Ashwanth & N. Boomika on Saturday, 12 December 2026 (5:30 PM – 9:00 PM) at PSK Mahal, Pattlur Nall Road!\n\nView our interactive invitation:\nhttps://ashwanth-bhoomika-wedding.vercel.app/`;
+  const shareText = `With great joy, you are cordially invited to the Wedding Reception of V.N. Ashwanth & N. Boomika on Saturday, 12 December 2026 (5:30 PM – 9:00 PM) at PSK Mahal, Pattlur Nall Road!\n\nView our interactive invitation:\nhttps://ashwanth-boomika-wedding.vercel.app/`;
   const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText("https://ashwanth-bhoomika-wedding.vercel.app/");
+      navigator.clipboard.writeText("https://ashwanth-boomika-wedding.vercel.app/");
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
