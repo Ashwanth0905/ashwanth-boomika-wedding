@@ -50,33 +50,32 @@ export const weddingData = {
     }
   ],
 
-  // Photo Gallery
-  // The bride and groom photos will be uploaded here.
-  // Replace these URLs or drop photos in public/images/
+  // Photo Gallery - Authentic Bride & Groom Photographs
   gallery: [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=80",
-      caption: "Two souls, one beautiful journey ahead",
-      alt: "Ashwanth & Boomika"
+      url: "/images/couple-heart.jpg",
+      caption: "Ashwanth & Boomika — A heart full of love, a lifetime of togetherness",
+      alt: "V.N. Ashwanth & N. Boomika making a heart pose",
+      featured: true
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80",
-      caption: "A celebration of love, laughter & forever",
-      alt: "Ashwanth & Boomika Moments"
+      url: "/images/groom-ashwanth.jpg",
+      caption: "The Groom — V.N. Ashwanth",
+      alt: "V.N. Ashwanth Groom Portrait"
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
-      caption: "Surrounded by tradition, blessed by elders",
-      alt: "Royal Reception Elegance"
+      url: "/images/bride-boomika.jpg",
+      caption: "The Bride — N. Boomika",
+      alt: "N. Boomika Bride Portrait"
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1000&q=80",
-      caption: "Moments turning into everlasting memories",
-      alt: "Celebration of Togetherness"
+      url: "/images/holding-hands.jpg",
+      caption: "Hand in hand, stepping into our forever",
+      alt: "Ashwanth & Boomika holding hands"
     }
   ],
 
