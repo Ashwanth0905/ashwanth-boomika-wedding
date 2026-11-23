@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { WelcomeCover } from './components/WelcomeCover';
 import { ScratchCard } from './components/ScratchCard';
 import { Countdown } from './components/Countdown';
+import { PhotoGallery } from './components/PhotoGallery';
 import { LocationSection } from './components/LocationSection';
 import { TimelineSection } from './components/TimelineSection';
-import { PhotoGallery } from './components/PhotoGallery';
 import { FooterSection } from './components/FooterSection';
-import { AudioPlayer } from './components/AudioPlayer';
 import { FallingPetals } from './components/FallingPetals';
 import { LordGaneshaIcon } from './components/IndianMotifs';
 import { weddingData } from './config/invitation';
@@ -14,24 +13,15 @@ import { weddingData } from './config/invitation';
 export function App() {
   const [hasOpened, setHasOpened] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
-  const [audioStarted, setAudioStarted] = useState(false);
 
   // When guest clicks "TAP TO OPEN" on initial royal cover
   const handleOpenCover = () => {
     setHasOpened(true);
-    setAudioStarted(true);
   };
 
   // When guest scratches card (even once) or clicks reveal button
   const handleCardRevealed = () => {
     setIsRevealed(true);
-    setAudioStarted(true);
-  };
-
-  const handleUserInteract = () => {
-    if (!audioStarted) {
-      setAudioStarted(true);
-    }
   };
 
   return (
@@ -39,9 +29,6 @@ export function App() {
       
       {/* Floating Gentle Petals */}
       <FallingPetals />
-
-      {/* Background Indian Classical Music Control */}
-      {hasOpened && <AudioPlayer isStarted={audioStarted} />}
 
       {/* Opening Royal Cover Screen */}
       {!hasOpened && (
@@ -52,7 +39,7 @@ export function App() {
       {hasOpened && (
         <main className="royal-page-container relative z-10 transition-opacity duration-1000 animate-fadeIn">
           
-          {/* Top Auspicious Header Banner with Capital 'A' for Ashwanth */}
+          {/* Top Auspicious Header Banner */}
           <header className="pt-8 pb-3 text-center px-4">
             <div className="inline-flex flex-col items-center">
               <LordGaneshaIcon className="w-12 h-12 text-amber-600 mb-1" />
@@ -88,26 +75,26 @@ export function App() {
             <ScratchCard
               isRevealed={isRevealed}
               onRevealed={handleCardRevealed}
-              onUserInteract={handleUserInteract}
             />
           </section>
 
           {/* Sections revealed down below once the invitation is scratched */}
           {isRevealed && (
             <div className="transition-all duration-700 animate-fadeIn">
-              {/* Live Wedding Countdown */}
+              
+              {/* 1. Live Wedding Countdown ("Counting Down To The Celebration") */}
               <Countdown />
 
-              {/* Venue & "SHOW DIRECTIONS" Google Maps Navigation */}
-              <LocationSection />
-
-              {/* Reception Schedule Timeline ("Welcome drinks" removed) */}
-              <TimelineSection />
-
-              {/* Cherished Moments Photo Gallery (Bride & Groom photo + Hand in Hand photo) */}
+              {/* 2. Cherished Moments Photo Gallery (Directly below Countdown) */}
               <PhotoGallery />
 
-              {/* Footer with WhatsApp sharing & blessings */}
+              {/* 3. Venue & "SHOW DIRECTIONS" Google Maps Navigation */}
+              <LocationSection />
+
+              {/* 4. Reception Schedule Timeline */}
+              <TimelineSection />
+
+              {/* 5. Footer with WhatsApp sharing & blessings */}
               <FooterSection />
             </div>
           )}

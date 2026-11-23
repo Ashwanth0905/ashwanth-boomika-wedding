@@ -10,7 +10,7 @@ import { weddingData } from '../config/invitation';
  * Instantly reveals on the very first scratch swipe/touch!
  * Also includes an alternative "Reveal Invitation Directly" button.
  */
-export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
+export const ScratchCard = ({ onRevealed, isRevealed }) => {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const isDrawingRef = useRef(false);
@@ -46,8 +46,7 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
     }
 
     if (onRevealed) onRevealed();
-    if (onUserInteract) onUserInteract();
-  }, [onRevealed, onUserInteract]);
+  }, [onRevealed]);
 
   // Draw initial canvas scratch surface
   const initCanvas = useCallback(() => {
@@ -146,8 +145,7 @@ export const ScratchCard = ({ onRevealed, isRevealed, onUserInteract }) => {
       triggerReveal();
     }
 
-    if (onUserInteract) onUserInteract();
-  }, [onUserInteract, triggerReveal]);
+  }, [triggerReveal]);
 
   useEffect(() => {
     initCanvas();
