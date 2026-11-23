@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Camera, X, ZoomIn, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { weddingData } from '../config/invitation';
 import { RoyalMandalaDivider, AntiqueCorner } from './IndianMotifs';
@@ -10,7 +10,7 @@ import { RoyalMandalaDivider, AntiqueCorner } from './IndianMotifs';
  * 2. Groom portrait (V.N. Ashwanth)
  * 3. Bride portrait (N. Boomika)
  * 4. Hand in Hand photo
- * Includes full-screen Lightbox viewing.
+ * Includes full-screen Lightbox viewing with prominent Close (X) button.
  */
 export const PhotoGallery = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -26,6 +26,31 @@ export const PhotoGallery = () => {
     e.stopPropagation();
     setSelectedIndex((prev) => (prev - 1 + photos.length) % photos.length);
   };
+
+  // Keyboard controls: Escape to close, arrows to navigate
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedIndex === null) return;
+      if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) => (prev + 1) % photos.length);
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) => (prev - 1 + photos.length) % photos.length);
+      }
+    };
+
+    if (selectedIndex !== null) {
+      window.addEventListener('keydown', handleKeyDown);
+      // Prevent body scrolling while modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedIndex, photos.length]);
 
   return (
     <section className="py-12 px-4 relative z-10 text-center animate-fadeIn">
@@ -170,16 +195,20 @@ export const PhotoGallery = () => {
       {/* Full-Screen Lightbox Modal */}
       {selectedIndex !== null && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-md animate-fadeIn select-none"
+          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black/95 p-4 backdrop-blur-md animate-fadeIn select-none"
           onClick={() => setSelectedIndex(null)}
         >
-          {/* Close button */}
+          {/* PROMINENT HIGH-VISIBILITY CLOSE BUTTON (Top-Right) */}
           <button
-            onClick={() => setSelectedIndex(null)}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-50 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedIndex(null);
+            }}
+            className="fixed top-4 right-4 sm:top-6 sm:right-6 z-[100000] flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-950 text-amber-300 border-2 border-amber-400 shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:bg-emerald-900 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             aria-label="Close photo"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 text-amber-300 stroke-[2.5]" />
+            <span className="text-xs font-serif font-bold tracking-wider uppercase">Close (✕)</span>
           </button>
 
           {/* Navigation Controls */}
@@ -187,14 +216,14 @@ export const PhotoGallery = () => {
             <>
               <button
                 onClick={handlePrev}
-                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors z-50 cursor-pointer"
+                className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-amber-400/50 text-amber-300 transition-all z-[100000] cursor-pointer active:scale-95 shadow-xl"
                 aria-label="Previous photo"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
               <button
                 onClick={handleNext}
-                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors z-50 cursor-pointer"
+                className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-amber-400/50 text-amber-300 transition-all z-[100000] cursor-pointer active:scale-95 shadow-xl"
                 aria-label="Next photo"
               >
                 <ChevronRight className="w-6 h-6" />
@@ -202,24 +231,31 @@ export const PhotoGallery = () => {
             </>
           )}
 
-          {/* Image & Caption */}
+          {/* Image & Caption Container */}
           <div 
-            className="relative max-w-4xl max-h-[85vh] flex flex-col items-center justify-center"
+            className="relative max-w-4xl max-h-[82vh] flex flex-col items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             <img
               src={photos[selectedIndex].url}
               alt={photos[selectedIndex].alt}
-              className="max-w-full max-h-[75vh] object-contain rounded-2xl border-2 border-amber-400/70 shadow-2xl"
+              className="max-w-full max-h-[70vh] object-contain rounded-2xl border-2 border-amber-400/70 shadow-2xl"
             />
+
             {photos[selectedIndex].caption && (
-              <div className="mt-4 px-4 py-2 rounded-full bg-black/60 border border-amber-400/30 text-amber-200 font-serif text-sm tracking-wide text-center max-w-lg">
+              <div className="mt-3 px-4 py-1.5 rounded-full bg-black/70 border border-amber-400/40 text-amber-200 font-serif text-xs sm:text-sm tracking-wide text-center max-w-lg">
                 {photos[selectedIndex].caption}
               </div>
             )}
-            <p className="text-stone-400 text-xs mt-2 font-sans">
-              Photo {selectedIndex + 1} of {photos.length}
-            </p>
+
+            {/* Bottom Secondary Close Button */}
+            <button
+              onClick={() => setSelectedIndex(null)}
+              className="mt-3 flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-stone-500/50 text-stone-300 hover:text-white text-xs font-serif uppercase tracking-widest transition-all cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span>Back to Invitation</span>
+            </button>
           </div>
         </div>
       )}

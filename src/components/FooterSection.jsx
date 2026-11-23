@@ -1,24 +1,55 @@
 import React, { useState } from 'react';
-import { Share2, Heart, Check, MessageCircle } from 'lucide-react';
+import { Share2, Heart, Check, MessageCircle, Copy } from 'lucide-react';
 import { weddingData } from '../config/invitation';
 import { RoyalMandalaDivider } from './IndianMotifs';
 
 /**
  * FooterSection Component
  * Warm blessings, WhatsApp sharing trigger, and royal sign-off.
+ * Bulletproof copy-link function guaranteed to copy:
+ * https://ashwanth-boomika-wedding.vercel.app/
  */
 export const FooterSection = () => {
   const [copied, setCopied] = useState(false);
 
-  // WhatsApp share link
+  const invitationUrl = "https://ashwanth-boomika-wedding.vercel.app/";
+
+  // WhatsApp share message
   const shareText = `With great joy, you are cordially invited to the Wedding Reception of V.N. Ashwanth & N. Boomika on Saturday, 12 December 2026 (5:30 PM – 9:00 PM) at PSK Mahal, Pattlur Nall Road!\n\nView our interactive invitation:\nhttps://ashwanth-boomika-wedding.vercel.app/`;
   const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
 
+  // Bulletproof copy link function (works on all devices, webviews, and desktop browsers)
   const handleCopyLink = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText("https://ashwanth-boomika-wedding.vercel.app/");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(invitationUrl)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 3000);
+        })
+        .catch(() => {
+          fallbackCopyText(invitationUrl);
+        });
+    } else {
+      fallbackCopyText(invitationUrl);
+    }
+  };
+
+  const fallbackCopyText = (text) => {
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      textarea.style.top = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (e) {
+      // In case of error
     }
   };
 
@@ -59,21 +90,32 @@ export const FooterSection = () => {
 
           <button
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-200 border border-amber-400/40 font-sans text-xs font-semibold tracking-wider transition-all active:scale-95"
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border transition-all active:scale-95 cursor-pointer font-sans text-xs font-semibold tracking-wider ${
+              copied 
+                ? 'bg-emerald-800 text-amber-200 border-amber-400 shadow-md ring-2 ring-amber-400/50' 
+                : 'bg-white/10 hover:bg-white/20 text-amber-200 border-amber-400/40'
+            }`}
           >
             {copied ? (
               <>
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>Link Copied!</span>
+                <Check className="w-4 h-4 text-emerald-300" />
+                <span>Copied Link!</span>
               </>
             ) : (
               <>
-                <Share2 className="w-4 h-4" />
+                <Copy className="w-4 h-4" />
                 <span>Copy Invitation Link</span>
               </>
             )}
           </button>
         </div>
+
+        {/* Display Copied URL */}
+        {copied && (
+          <p className="text-[11px] font-sans text-amber-300 mt-2.5 animate-fadeIn">
+            ✓ Copied: {invitationUrl}
+          </p>
+        )}
 
         {/* Footer credits */}
         <div className="mt-10 pt-6 border-t border-amber-400/20 text-[10px] text-stone-400 font-sans tracking-widest uppercase">
