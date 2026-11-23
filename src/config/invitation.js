@@ -22,9 +22,8 @@ export const weddingData = {
   address: "Pattlur Nall Road",
   city: "Anthiyur Bhavani, Tamil Nadu",
   
-  // Google Maps Links (Guaranteed to work on both laptop/desktop and mobile)
-  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=PSK+MAHAL+Anthiyur+Bhavani",
-  googleMapsAppUrl: "https://maps.app.goo.gl/ynhQ85xUwPMgvwg9A",
+  // Official Google Maps Direct Navigation (Guaranteed to work on all laptops, desktops, and mobile devices)
+  googleMapsUrl: "https://www.google.com/maps/dir/?api=1&destination=PSK+MAHAL+A%2FC+Patlur+Nalroad+Anthiyur+Bhavani",
   mapEmbedUrl: "https://maps.google.com/maps?q=PSK+MAHAL,+Anthiyur+Bhavani&t=&z=14&ie=UTF8&iwloc=&output=embed",
   
   // Traditional Tamil Wedding Instrumental Music
