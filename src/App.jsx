@@ -6,6 +6,7 @@ import { PhotoGallery } from './components/PhotoGallery';
 import { LocationSection } from './components/LocationSection';
 import { TimelineSection } from './components/TimelineSection';
 import { FooterSection } from './components/FooterSection';
+import { AudioPlayer } from './components/AudioPlayer';
 import { FallingPetals } from './components/FallingPetals';
 import { LordGaneshaIcon } from './components/IndianMotifs';
 import { weddingData } from './config/invitation';
@@ -13,15 +14,18 @@ import { weddingData } from './config/invitation';
 export function App() {
   const [hasOpened, setHasOpened] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
 
   // When guest clicks "TAP TO OPEN" on initial royal cover
   const handleOpenCover = () => {
     setHasOpened(true);
+    setAudioStarted(true);
   };
 
-  // When guest scratches card (even once) or clicks reveal button
+  // When guest scratches card or clicks reveal button
   const handleCardRevealed = () => {
     setIsRevealed(true);
+    setAudioStarted(true);
   };
 
   return (
@@ -29,6 +33,9 @@ export function App() {
       
       {/* Floating Gentle Petals */}
       <FallingPetals />
+
+      {/* Traditional Tamil Wedding Background Music Player */}
+      {hasOpened && <AudioPlayer isStarted={audioStarted} />}
 
       {/* Opening Royal Cover Screen */}
       {!hasOpened && (
@@ -88,7 +95,7 @@ export function App() {
               {/* 2. Cherished Moments Photo Gallery (Directly below Countdown) */}
               <PhotoGallery />
 
-              {/* 3. Venue & "SHOW DIRECTIONS" Google Maps Navigation */}
+              {/* 3. Venue & "VIEW ON GOOGLE MAPS" with Embedded Live Map */}
               <LocationSection />
 
               {/* 4. Reception Schedule Timeline */}

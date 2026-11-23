@@ -1,7 +1,7 @@
 // Wedding Reception Master Configuration
 // Couple: V.N. Ashwanth & N. Boomika
 // Reception Date: Saturday, 12 December 2026 | 5:30 PM - 9:00 PM IST
-// Venue: PSK Mahal, Pattlur Nall Road
+// Venue: PSK Mahal, Pattlur Nall Road (Anthiyur Bhavani)
 
 export const weddingData = {
   groom: "V.N. Ashwanth",
@@ -16,17 +16,25 @@ export const weddingData = {
   timeText: "5:30 PM – 9:00 PM",
   targetDateISO: "2026-12-12T17:30:00+05:30",
   
-  // Venue & Location - Updated Google Maps Navigation Link
+  // Venue & Location
   venue: "PSK Mahal",
+  venueSub: "PSK MAHAL, ANTHIYUR BHAVANI",
   address: "Pattlur Nall Road",
-  city: "Tamil Nadu",
-  googleMapsUrl: "https://maps.app.goo.gl/ynhQ85xUwPMgvwg9A",
+  city: "Anthiyur Bhavani, Tamil Nadu",
+  
+  // Google Maps Links (Guaranteed to work on both laptop/desktop and mobile)
+  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=PSK+MAHAL+Anthiyur+Bhavani",
+  googleMapsAppUrl: "https://maps.app.goo.gl/ynhQ85xUwPMgvwg9A",
+  mapEmbedUrl: "https://maps.google.com/maps?q=PSK+MAHAL,+Anthiyur+Bhavani&t=&z=14&ie=UTF8&iwloc=&output=embed",
+  
+  // Traditional Tamil Wedding Instrumental Music
+  musicUrl: "/audio/tamil-wedding-music.mp3",
   
   // Invitation Quotes
   invitationQuote: "With great joy, we invite you to join us as we celebrate this beautiful occasion.",
   blessingText: "Together with our families, we request the honor of your presence and blessings at the wedding reception of our children.",
   
-  // Reception Timeline (Exclusively Reception - "Welcome drinks" removed)
+  // Reception Timeline (Exclusively Reception)
   timeline: [
     {
       time: "5:30 PM",
@@ -73,5 +81,5 @@ export const weddingData = {
     encodeURIComponent("V.N. Ashwanth & N. Boomika - Wedding Reception") +
     "&dates=20261212T120000Z/20261212T153000Z" + 
     "&details=" + encodeURIComponent("With great joy, you are invited to the Wedding Reception of V.N. Ashwanth & N. Boomika at PSK Mahal, Pattlur Nall Road.") +
-    "&location=" + encodeURIComponent("PSK Mahal, Pattlur Nall Road")
+    "&location=" + encodeURIComponent("PSK Mahal, Pattlur Nall Road, Anthiyur Bhavani")
 };
