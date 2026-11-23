@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#0c3821" stroke="#d4af37" stroke-width="3"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#e6c86e" stroke-width="1" stroke-dasharray="2 2"/>
+  {/* Lord Ganesha golden emblem */}
+  <g fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 14 L54 24 L60 20 L56 28 L62 26 L55 34 L50 32 L45 34 L38 26 L44 28 L40 20 L46 24 Z" fill="#d4af37" fill-opacity="0.25"/>
+    <circle cx="50" cy="20" r="2" fill="#d4af37" />
+    <path d="M48 38 Q50 35 52 38 L51 44 L49 44 Z" fill="#d4af37"/>
+    <path d="M42 38 C28 37 26 50 36 58 C40 60 42 56 42 53" />
+    <path d="M58 38 C72 37 74 50 64 58 C60 60 58 56 58 53" />
+    <path d="M49 46 C49 55 53 60 54 68 C55 76 46 80 40 78 C36 76 36 71 40 69 C43 67 46 71 44 73" stroke-width="3" />
+    <circle cx="37" cy="73" r="2.5" fill="#d4af37" />
+  </g>
+</svg>
